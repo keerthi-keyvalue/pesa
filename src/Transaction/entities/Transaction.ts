@@ -1,8 +1,9 @@
 import { AbstractEntity } from "../../Common/AbstractEntity";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { v4 } from "uuid";
 import { ShareType } from "../enums/ShareType";
 import { TransactionStatus } from "../enums/TransactionStatus";
+import { Milestone } from "../../Milestone/entities/Milestone";
 
 
 @Entity()
@@ -39,6 +40,13 @@ export class Transaction extends AbstractEntity {
         default:TransactionStatus.NOT_SETTLED
     })
     transactionStatus : TransactionStatus
+
+    @Column({nullable: true, type: "uuid"})
+    paidBy : string
+
+    @ManyToOne((type) => Milestone)
+    @JoinColumn({ referencedColumnName: "id", name: "milestone_id" })
+    milestone: Milestone;
 
 
 }

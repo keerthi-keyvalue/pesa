@@ -1,4 +1,4 @@
-import { IsEnum, IsInt,  IsNotEmpty,  IsOptional,  Matches,  MaxLength,  MIN } from "class-validator";
+import { IsEnum, IsInt,  IsNotEmpty,  IsOptional,  Matches,  MaxLength,  Min,  MIN } from "class-validator";
 import { UUID_REGEX } from "../../Common/Constants";
 import { UserShare } from "../dto/UserShare";
 import { ShareType } from "../enums/ShareType";
@@ -24,7 +24,7 @@ export class CreateTransactionInput {
     @IsEnum(ShareType)
     shareType: ShareType
 
-    @IsInt()
+    @Min(0)
     amount: number
 
     @IsEnum(TransactionStatus)
