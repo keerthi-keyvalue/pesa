@@ -13,7 +13,7 @@ export class CreateTransactionInput {
     @Matches(RegExp(UUID_REGEX))
     categoryId: string;
 
-    userShares: [UserShare]
+    userShares: UserShare[]
 
     @Matches(RegExp(UUID_REGEX))
     categoricalMilestoneId: string;
