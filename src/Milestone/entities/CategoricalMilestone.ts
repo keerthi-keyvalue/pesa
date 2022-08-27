@@ -11,7 +11,7 @@ export class CategoricalMilestone extends AbstractEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string = v4();
     
-    @Column({nullable: true})
+    @Column({nullable: true, default: Category.OTHERS})
     category: Category
 
     @ManyToOne((type) => Milestone)
