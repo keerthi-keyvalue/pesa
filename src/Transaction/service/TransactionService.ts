@@ -1,4 +1,4 @@
-import { Inject, Logger } from "@nestjs/common";
+import { Inject, Logger, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionRepository } from "../repository/TransactionRepository";
 import { Transaction } from "../entities/Transaction";
@@ -19,6 +19,9 @@ export class TransactionService implements ITransactionService {
 
     async editTransaction(id : string, updateTransactionInput : UpdateTransactionInput): Promise<Transaction> {
         const transaction = await this.transactionRepository.findOneBy({ id });
+        if(!transaction){
+            throw new NotFoundException("Transaction not found")
+        }
         const updatedTransaction =  plainToClass(Transaction, {
             ...transaction,
             ...updateTransactionInput
@@ -36,7 +39,15 @@ export class TransactionService implements ITransactionService {
     }
 
     getTransactionById(id : string): Promise<Transaction> {
-        throw new Error("Method not implemented.");
+        return this.transactionRepository.findOne({
+            where : {id}
+        });
+    }
+
+    getTransactionsByMilestoneId(milestoneId : string) : Promise<Transaction[]> {
+        return this.transactionRepository.find({
+            where : {milestoneId}
+        });
     }
 
     async createTransaction(createTransactionInput: CreateTransactionInput): Promise<Transaction> {

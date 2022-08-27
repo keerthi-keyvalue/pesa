@@ -7,5 +7,6 @@ export interface ITransactionService {
     editTransaction(id : string, updateTRansactionInput : UpdateTransactionInput) : Promise<Transaction>
     getTransactionById(id : string): Promise<Transaction>
     getAllTransactionsByUserId(userId : string): Promise<Transaction[]>
+    getTransactionsByMilestoneId(milestoneId : string) : Promise<Transaction[]>
 
 }

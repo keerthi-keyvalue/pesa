@@ -30,13 +30,18 @@ export class TransactionController {
         return this.transactionService.editTransaction(id,updateTransactionInput);
     }
 
-    @Get("/:id")
-    async getTransactionById(): Promise<Transaction> {
-        return null;
+    @Get("/user/:userId")
+    async getTransactionByUserId(@Param("userId") userId : string): Promise<Transaction[]> {
+        return this.transactionService.getAllTransactionsByUserId(userId);
     }
 
-    @Get()
-    async getAllTransactions(): Promise<Transaction[]> {
-        return null;
+    @Get("/:id")
+    async getTransactionById(@Param("id") id : string): Promise<Transaction> {
+        return this.transactionService.getTransactionById(id);
+    }
+
+    @Get("/milestone/:milestoneId")
+    async getTransactionByMilestoneId(@Param("milestoneId") milestoneId : string): Promise<Transaction[]> {
+        return this.transactionService.getTransactionsByMilestoneId(milestoneId);
     }
 }
