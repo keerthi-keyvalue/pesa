@@ -1,5 +1,5 @@
 
 export enum TransactionStatus {
-    SETTLED,
-    NOT_SETTLED
+    SETTLED = "SETTLED",
+    NOT_SETTLED = "NOT_SETTLED"
 }

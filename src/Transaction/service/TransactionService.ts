@@ -6,15 +6,15 @@ import { ITransactionService } from "./ITransactionService";
 import { CreateTransactionInput } from "../model/CreateTransactionInput";
 import { plainToClass } from "class-transformer";
 import { UpdateTransactionInput } from "../model/UpdateTransactionInput";
-// import { USER_TRANSACTION_SERVICE } from "../Constant";
+import { USER_TRANSACTION_SERVICE } from "../Constant";
 import { IUserTransactionService } from "./IUserTransactionService";
 
 export class TransactionService implements ITransactionService {
     private readonly logger: Logger = new Logger(TransactionService.name);
     constructor(@InjectRepository(Transaction)
     private transactionRepository: TransactionRepository,
-    // @Inject(USER_TRANSACTION_SERVICE)
-    // private userTransactionService:IUserTransactionService
+    @Inject(USER_TRANSACTION_SERVICE)
+    private userTransactionService:IUserTransactionService
     ) { }
 
     async editTransaction(id : string, updateTransactionInput : UpdateTransactionInput): Promise<Transaction> {
@@ -26,11 +26,18 @@ export class TransactionService implements ITransactionService {
             ...transaction,
             ...updateTransactionInput
         });
-        return this.transactionRepository.save(updatedTransaction);
+        const newTransaction = await this.transactionRepository.save(updatedTransaction);
+        await this.userTransactionService.addUserTransaction({
+            shareType:updateTransactionInput.shareType,
+            transactionId:transaction.id,
+            userShares:updateTransactionInput.userShares
+        });
+        return newTransaction;
     }
     getAllTransactionsByUserId(userId : string): Promise<Transaction[]> {
         return null;
     }
+
     getTransactionById(id : string): Promise<Transaction> {
         return this.transactionRepository.findOne({
             where : {id}
@@ -43,11 +50,16 @@ export class TransactionService implements ITransactionService {
         });
     }
 
-    createTransaction(createTransactionInput: CreateTransactionInput): Promise<Transaction> {
+    async createTransaction(createTransactionInput: CreateTransactionInput): Promise<Transaction> {
         const transaction = plainToClass(Transaction, {
             ...createTransactionInput
         });
-                
-        return this.transactionRepository.save(transaction);
+        const newTransaction = await  this.transactionRepository.save(transaction);
+        await this.userTransactionService.addUserTransaction({
+            shareType:createTransactionInput.shareType,
+            transactionId:transaction.id,
+            userShares:createTransactionInput.userShares
+        });
+        return newTransaction;
     }
 }
