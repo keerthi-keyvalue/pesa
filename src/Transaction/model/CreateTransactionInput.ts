@@ -1,3 +1,4 @@
+import { Optional } from "@nestjs/common";
 import { IsEnum, IsInt,  IsNotEmpty,  IsOptional,  Matches,  MaxLength,  MIN } from "class-validator";
 import { UUID_REGEX } from "../../Common/Constants";
 import { UserShare } from "../dto/UserShare";
@@ -10,12 +11,10 @@ export class CreateTransactionInput {
     @MaxLength(255)
     title : String
 
-    @Matches(RegExp(UUID_REGEX))
-    categoryId: string;
-
     userShares: UserShare[]
 
     @Matches(RegExp(UUID_REGEX))
+    @Optional()
     categoricalMilestoneId: string;
 
     @Matches(RegExp(UUID_REGEX))
@@ -28,5 +27,6 @@ export class CreateTransactionInput {
     amount: number
 
     @IsEnum(TransactionStatus)
+    @Optional()
     transactionStatus : TransactionStatus
 }

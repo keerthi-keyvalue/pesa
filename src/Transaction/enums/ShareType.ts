@@ -1,4 +1,4 @@
 export enum ShareType {
-    EQUALLY,
-    UNEQUALLY
+    EQUALLY = "EQUALLY",
+    UNEQUALLY = "UNEQUALLY"
 }
