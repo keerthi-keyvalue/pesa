@@ -12,7 +12,8 @@ export class MilestoneService implements IMilestoneService{
 
     constructor(
         @InjectRepository(Milestone)
-        private readonly milestoneRepository: MilestoneRepository
+        private readonly milestoneRepository: MilestoneRepository,
+        
     ) {}
 
     async createMilestone(createMilestoneInput: CreateMilestoneInput) {
@@ -33,7 +34,7 @@ export class MilestoneService implements IMilestoneService{
     }
 
     async editMilestone(id: string, editMilestoneInput: EditMilestoneInput) {
-        const milestone = this.milestoneRepository.findOne({
+        const milestone = await this.milestoneRepository.findOne({
             where: {
                 id,
                 status: MilestoneStatus.CURRENT
