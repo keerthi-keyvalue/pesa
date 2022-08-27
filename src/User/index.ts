@@ -1,7 +1,10 @@
 import { Module, Provider } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
 import { CommonModule } from "../Common";
 import { USER_SERVICE } from "./Constant";
 import { UserController } from "./controller/UserController";
+import { User } from "./entities/User";
+import { UserRepository } from "./repository/UserRepository";
 import { UserService } from "./service/UserService";
 
 const userServiceProvider:Provider = {
@@ -10,7 +13,7 @@ const userServiceProvider:Provider = {
 };
 
 @Module({
-  imports: [CommonModule],
+  imports: [CommonModule,TypeOrmModule.forFeature([User, UserRepository]),],
   providers: [userServiceProvider],
   controllers: [UserController],
   exports: [userServiceProvider],

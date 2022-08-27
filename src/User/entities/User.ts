@@ -11,9 +11,9 @@ export class User extends AbstractEntity {
   @Column()
   phoneNumber: string;
 
-  @Column()
+  @Column({nullable:true})
   name:string;
 
-  @Column()
+  @Column({nullable:true})
   income:string
 }
