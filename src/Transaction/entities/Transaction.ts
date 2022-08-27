@@ -37,7 +37,7 @@ export class Transaction extends AbstractEntity {
         precision: 13,
         nullable: true,
       })
-    amount: string
+    amount: number
 
     @Column({
         default:TransactionStatus.NOT_SETTLED
