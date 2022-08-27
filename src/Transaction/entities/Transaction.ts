@@ -11,13 +11,33 @@ export class Transaction extends AbstractEntity {
     @PrimaryGeneratedColumn("uuid")
     id: string = v4();
 
-    @Column()
+    @Column({nullable : false})
+    title : String
+
+    @Column({nullable: true, type: "uuid"})
+    categoryId: string;
+
+    @Column({nullable: true, type: "uuid"})
+    categoricalMilestoneId: string;
+
+    @Column({nullable: true, type: "uuid"})
+    milestoneId: string;
+
+    @Column({
+        default:ShareType.EQUALLY
+    })
     shareType: ShareType
 
-    @Column()
+    @Column("decimal", {
+        scale: 2,
+        precision: 13,
+        nullable: true,
+      })
     amount: string
 
-    @Column()
+    @Column({
+        default:TransactionStatus.NOT_SETTLED
+    })
     transactionStatus : TransactionStatus
 
 

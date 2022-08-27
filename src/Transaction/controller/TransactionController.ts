@@ -1,11 +1,15 @@
 import {
+    Body,
     Controller,
     Get,
     Inject,
     Logger,
+    Param,
     Post,
 } from "@nestjs/common";
 import { Transaction } from "../entities/Transaction";
+import { CreateTransactionInput } from "../model/CreateTransactionInput";
+import { UpdateTransactionInput } from "../model/UpdateTransactionInput";
 import { ITransactionService } from "../service/ITransactionService";
 
 @Controller("/api/v1/transaction")
@@ -17,13 +21,13 @@ export class TransactionController {
     ) { }
 
     @Post("/")
-    async createTransaction(): Promise<Transaction> {
-        return this.transactionService.createTransaction();
+    async createTransaction(@Body() createTransactionInput: CreateTransactionInput): Promise<Transaction> {
+        return this.transactionService.createTransaction(createTransactionInput);
     }
 
     @Post("/:id")
-    async editTransaction(): Promise<Transaction> {
-        return null;
+    async editTransaction(@Param("id") id: string, @Body() updateTransactionInput: UpdateTransactionInput): Promise<Transaction> {
+        return this.transactionService.editTransaction(id,updateTransactionInput);
     }
 
     @Get("/:id")
