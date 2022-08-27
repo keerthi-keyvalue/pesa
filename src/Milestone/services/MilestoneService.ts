@@ -54,4 +54,8 @@ export class MilestoneService implements IMilestoneService{
         return updatedMilestone;
     }
 
+    async getMilestoneById(milestoneId: string) {
+        return this.milestoneRepository.findOneById(milestoneId);
+    }
+
 }
