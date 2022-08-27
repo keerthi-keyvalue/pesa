@@ -23,20 +23,32 @@ export class TransactionService implements ITransactionService {
             ...transaction,
             ...updateTransactionInput
         });
-        return this.transactionRepository.save(updatedTransaction);
+        const newTransaction = await this.transactionRepository.save(updatedTransaction);
+        await this.userTransactionService.addUserTransaction({
+            shareType:updateTransactionInput.shareType,
+            transactionId:transaction.id,
+            userShares:updateTransactionInput.userShares
+        });
+        return newTransaction;
     }
     getAllTransactionsByUserId(userId : string): Promise<Transaction[]> {
         return null;
     }
+
     getTransactionById(id : string): Promise<Transaction> {
         throw new Error("Method not implemented.");
     }
 
-    createTransaction(createTransactionInput: CreateTransactionInput): Promise<Transaction> {
+    async createTransaction(createTransactionInput: CreateTransactionInput): Promise<Transaction> {
         const transaction = plainToClass(Transaction, {
             ...createTransactionInput
         });
-        
-        return this.transactionRepository.save(transaction);
+        const newTransaction = await  this.transactionRepository.save(transaction);
+        await this.userTransactionService.addUserTransaction({
+            shareType:createTransactionInput.shareType,
+            transactionId:transaction.id,
+            userShares:createTransactionInput.userShares
+        });
+        return newTransaction;
     }
 }
