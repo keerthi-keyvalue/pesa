@@ -9,4 +9,6 @@ export interface IMilestoneService {
 
     editMilestone(id: string, editMilestoneInput: EditMilestoneInput):Promise<Milestone>;
 
+    getMilestoneById(milestoneId: string);
+
 }
