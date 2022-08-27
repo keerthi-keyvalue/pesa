@@ -3,6 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { TransactionRepository } from "../repository/TransactionRepository";
 import { Transaction } from "../entities/Transaction";
 import { ITransactionService } from "./ITransactionService";
+import { CreateTransactionInput } from "../model/CreateTransactionInput";
+import { plainToClass } from "class-transformer";
+import { UpdateTransactionInput } from "../model/UpdateTransactionInput";
 
 export class TransactionService implements ITransactionService {
     private readonly logger: Logger = new Logger(TransactionService.name);
@@ -10,17 +13,26 @@ export class TransactionService implements ITransactionService {
     private transactionRepository: TransactionRepository
     ) { }
 
-    editTransaction(id : string): Promise<Transaction> {
-        throw new Error("Method not implemented.");
+    async editTransaction(id : string, updateTransactionInput : UpdateTransactionInput): Promise<Transaction> {
+        const transaction = await this.transactionRepository.findOneBy({ id });
+        const updatedTransaction =  plainToClass(Transaction, {
+            ...transaction,
+            ...updateTransactionInput
+        });
+        return this.transactionRepository.save(updatedTransaction);
     }
-    getAllTransactions(): Promise<Transaction[]> {
-        return this.transactionRepository.find();
+    getAllTransactionsByUserId(userId : string): Promise<Transaction[]> {
+        return null;
     }
     getTransactionById(id : string): Promise<Transaction> {
         throw new Error("Method not implemented.");
     }
 
-    createTransaction(): Promise<Transaction> {
-        throw new Error("Method not implemented.");
+    createTransaction(createTransactionInput: CreateTransactionInput): Promise<Transaction> {
+        const transaction = plainToClass(Transaction, {
+            ...createTransactionInput
+        });
+
+        return this.transactionRepository.save(transaction);
     }
 }
