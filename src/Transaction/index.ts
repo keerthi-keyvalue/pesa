@@ -25,7 +25,7 @@ const userTransactionServiceProvider: Provider = {
   imports: [CommonModule, TypeOrmModule.forFeature([Transaction, TransactionRepository]), TypeOrmModule.forFeature([UserTransaction, UserTransactionRepository])],
   providers: [transactionServiceProvider, userTransactionServiceProvider],
   controllers: [TransactionController],
-  exports: [transactionServiceProvider]
+  exports: [transactionServiceProvider,userTransactionServiceProvider]
 })
 export class TransactionModule { }
 

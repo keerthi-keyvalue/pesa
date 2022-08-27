@@ -1,5 +1,6 @@
 import { Module, Provider } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { TransactionModule } from "../Transaction";
 import { CommonModule } from "../Common";
 import { USER_SERVICE } from "./Constant";
 import { UserController } from "./controller/UserController";
@@ -13,7 +14,7 @@ const userServiceProvider:Provider = {
 };
 
 @Module({
-  imports: [CommonModule,TypeOrmModule.forFeature([User, UserRepository]),],
+  imports: [CommonModule,TypeOrmModule.forFeature([User, UserRepository]),TransactionModule],
   providers: [userServiceProvider],
   controllers: [UserController],
   exports: [userServiceProvider],

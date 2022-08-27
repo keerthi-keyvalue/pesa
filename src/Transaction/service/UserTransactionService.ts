@@ -1,6 +1,7 @@
 import { ConflictException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { plainToClass } from "class-transformer";
+import { In } from "typeorm";
 import { AddUserTransactionInput } from "../dto/AddUserTransactionInput";
 import { UserTransaction } from "../entities/UserTransaction";
 import { TransactionStatus } from "../enums/TransactionStatus";
@@ -29,5 +30,13 @@ export class UserTransactionService implements IUserTransactionService {
             })
         }));
         return this.userTransactionRepository.save(userTransactions);
+    }
+
+    async getUserTransactionsByTransactionIds(transactionIds: string[]): Promise<UserTransaction[]> {
+        return this.userTransactionRepository.find({where:{transactionId:In(transactionIds)}});
+    }
+
+    async getUserTransactionById(id: string): Promise<UserTransaction> {
+        return this.userTransactionRepository.findOneById(id)
     }
 }
