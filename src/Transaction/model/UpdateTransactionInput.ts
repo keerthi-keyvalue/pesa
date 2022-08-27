@@ -1,4 +1,5 @@
 import { IsEnum, IsInt,  IsNotEmpty,  IsOptional,  Matches,  MaxLength,  Min,  MIN } from "class-validator";
+import { Category } from "../../Common/enums/Category";
 import { UUID_REGEX } from "../../Common/Constants";
 import { UserShare } from "../dto/UserShare";
 import { ShareType } from "../enums/ShareType";
@@ -14,7 +15,7 @@ export class UpdateTransactionInput {
     @Matches(RegExp(UUID_REGEX))
     categoryId: string;
 
-    @Matches(RegExp(UUID_REGEX))
+    @IsEnum(Category)
     categoricalMilestoneId: string;
 
     @Matches(RegExp(UUID_REGEX))
@@ -28,4 +29,7 @@ export class UpdateTransactionInput {
 
     @IsEnum(TransactionStatus)
     transactionStatus : TransactionStatus
+
+    @Matches(RegExp(UUID_REGEX))
+    paidBy : string
 }

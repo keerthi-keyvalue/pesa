@@ -1,4 +1,5 @@
 import { IsEnum, IsInt,  IsNotEmpty,  IsOptional,  Matches,  MaxLength,  Min,  MIN } from "class-validator";
+import { Category } from "../../Common/enums/Category";
 import { UUID_REGEX } from "../../Common/Constants";
 import { UserShare } from "../dto/UserShare";
 import { ShareType } from "../enums/ShareType";
@@ -10,7 +11,7 @@ export class CreateTransactionInput {
     @MaxLength(255)
     title : String
 
-    @Matches(RegExp(UUID_REGEX))
+    @IsEnum(Category)
     categoryId: string;
 
     userShares: UserShare[]
@@ -19,6 +20,7 @@ export class CreateTransactionInput {
     categoricalMilestoneId: string;
 
     @Matches(RegExp(UUID_REGEX))
+    @IsNotEmpty()
     milestoneId: string;
 
     @IsEnum(ShareType)
@@ -29,4 +31,8 @@ export class CreateTransactionInput {
 
     @IsEnum(TransactionStatus)
     transactionStatus : TransactionStatus
+
+    @Matches(RegExp(UUID_REGEX))
+    @IsNotEmpty()
+    paidBy : string
 }
