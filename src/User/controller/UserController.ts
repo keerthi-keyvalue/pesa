@@ -32,10 +32,18 @@ export class UserController {
         return this.userService.createUser(createUserInput)
     }
 
-    @Get("/:phoneNumber")
+    @Get("/phone/:phoneNumber")
     async getUserByPhone(
         @Param("phoneNumber") phoneNumber: string,
     ):Promise<User>{
         return this.userService.getUserByPhoneNumber(phoneNumber);
+    }
+
+    @Get("/summary")
+    async getUserSummary(
+        @Query("userId") userId: string,
+        @Query("milestoneId") milestoneId: string,
+    ):Promise<{[key:string]:number}>{
+        return this.userService.getUserSummary(userId,milestoneId);
     }
 }

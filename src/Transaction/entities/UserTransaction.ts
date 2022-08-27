@@ -26,7 +26,7 @@ export class UserTransaction extends AbstractEntity {
     transactionId: string;
 
     @Column()
-    amount: string
+    amount: number
 
     @Column()
     transactionStatus : TransactionStatus
