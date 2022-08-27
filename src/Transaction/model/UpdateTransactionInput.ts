@@ -9,7 +9,7 @@ export class UpdateTransactionInput {
     @MaxLength(255)
     title : string
 
-    userShares: [UserShare]
+    userShares: UserShare[]
 
     @Matches(RegExp(UUID_REGEX))
     categoryId: string;
